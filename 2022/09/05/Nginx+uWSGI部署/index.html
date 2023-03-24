@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-cn" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Nginx+uWSGI部署 | Dr.SlatySun</title><script>var config = {"root":"salty.github.io/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><link rel="stylesheet" href="salty.github.io/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("salty.github.io/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('salty.github.io/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="salty.github.io/atom.xml" title="Dr.SlatySun" type="application/atom+xml">
+</head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="salty.github.io/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="salty.github.io/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>Nginx+uWSGI部署</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2022-09-04T16:00:00.000Z" id="date"> 2022-09-05</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-24T06:58:07.181Z" id="updated"> 2023-03-24</time></div></span></div></div><hr><div id="post-content"><p>Linux系统为Centos7</p>
+<h2 id="一、Nginx是什么"><a href="#一、Nginx是什么" class="headerlink" title="一、Nginx是什么"></a>一、Nginx是什么</h2><p>Nginx类似Apache，一样都是一种Web服务器，基于REST架构风格。<br>Apache的发展时期很长，而且是毫无争议的世界第一大服务器。它有着很多优点：稳定、开源、跨平台等等。它出现的时间太长了，它兴起的年代，互联网产业远远比不上现在。所以它被设计为一个重量级并且不支持高并发的服务器。在Apache上运行数以万计的并发访问，会导致服务器消耗大量内存。操作系统对其进行进程或线程间的切换也消耗了大量的CPU资源，导致HTTP请求的平均响应速度降低。这些都决定了Apache不可能成为高性能WEB服务器。因此，轻量级高并发服务器Nginx就应运而生了。</p>
+<h2 id="二、Nginx的作用"><a href="#二、Nginx的作用" class="headerlink" title="二、Nginx的作用"></a>二、Nginx的作用</h2><p>Nginx是一款自由的、开源的、高性能的HTTP服务器和反向代理服务器；同时也是一个IMAP、POP3、SMTP代理服务器；Nginx可以作为一个HTTP服务器进行网站的发布处理，另外Nginx可以作为反向代理进行负载均衡的实现。</p>
+<h2 id="三、关于代理"><a href="#三、关于代理" class="headerlink" title="三、关于代理"></a>三、关于代理</h2><p>说到代理，首先我们要明确一个概念，所谓代理就是一个代表、一个渠道；<br>此时就涉及到两个角色，一个是被代理角色，一个是目标角色。被代理角色通过这个代理访问目标角色完成一些任务的过程称为代理操作过程。如同生活中租房子，房东把房子交给中介，租客让中介帮忙找房子，这个中介就是代理，被代理的角色就是房东，目标角色就是用户。</p>
+<ol>
+<li><strong>正向代理</strong></li>
+</ol>
+<p>比如我们要访问国外的网站：Google，我们需要挂VPN。当我们用VPN访问Google的时候，我们的请求会先走到VPN（代理服务器），VPN（代理服务器）去访问Google，然后将访问到的数据传递给我们。这个VPN就是起到了一个正向代理的作用。</p>
+<ol start="2">
+<li><strong>反向代理</strong></li>
+</ol>
+<p>比如双11的时候我们访问淘宝，同时连接到网站的访问人数已经爆表，单个服务器远远不能满足人民日益增长的购买欲望了，此时就出现了：分布式部署。也就是通过部署多台服务器来解决访问人数限制的问题；淘宝网站中大部分功能也是直接使用Nginx进行反向代理实现的。</p>
+<ol start="3">
+<li><strong>负载均衡</strong></li>
+</ol>
+<p>负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。<br>负载均衡其意思就是分摊到多个操作单元上进行执行，例如Web服务器、FTP服务器等，从而共同完成工作任务。</p>
+<h2 id="四、安装-Nginx"><a href="#四、安装-Nginx" class="headerlink" title="四、安装 Nginx"></a>四、安装 Nginx</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo yum install -y nginx<br></code></pre></td></tr></table></figure>
+
+<p>安装成功后默认的配置文件为：<code>/etc/nginx/nginx.conf</code></p>
+<h2 id="五、防火墙配置"><a href="#五、防火墙配置" class="headerlink" title="五、防火墙配置"></a>五、防火墙配置</h2><p>打开防火墙可保护我们的服务器</p>
+<ul>
+<li><p>查看防火墙状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --state<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>防火墙开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl enable firewalld.service<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>打开防火墙服务</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start firewalld.service<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看防火墙开启的端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --list-ports<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>防火墙打开端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">firewall-cmd --add-port=80/tcp --add-port=443/tcp<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>注：部署新服务的同时，也需要在腾讯云或阿里云服务器后台的安全组打开端口</p>
+<h2 id="六、配置Nginx"><a href="#六、配置Nginx" class="headerlink" title="六、配置Nginx"></a>六、配置Nginx</h2><ol>
+<li>修改<code>/etc/nginx/nginx.conf</code>配置文件<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs plaintext"># 工作进程数<br>worker_processes  4;<br><br># 配置事件<br>events &#123;<br>    # 最大连接数<br>    worker_connections  100000;<br>&#125;<br>http &#123;<br>    include       mime.types;<br>    default_type  application/octet-stream;<br>    # 开启上下文，提升性能<br>    sendfile        on;<br>    # 关闭请求成功日志<br>    access_log      off;<br>    # 长链接断开超时时间<br>    keepalive_timeout  65;<br><br>    # 配置后端服务<br>    server &#123;<br>        # 监听80端口<br>        listen 80;<br>        # 站点，可配置ip+端口或域名<br>        server_name  xxxx.cn;<br>        charset utf-8;<br>        client_max_body_size 75M;<br>        # 访问80端口的根目录配置<br>        location / &#123;<br>           include uwsgi_params;<br>           proxy_pass http://127.0.0.1:8001;  #端口要和uwsgi里配置的一样<br>           uwsgi_read_timeout 30;<br>        &#125;<br>        location /static/ &#123;<br>           alias /xx/xxxx/static/; #静态资源路径<br>        &#125;<br>    &#125;<br>    # 配置前端服务<br>    server &#123;<br>        # 监听80端口<br>        listen 80;<br>        # 站点，可配置ip+端口或域名<br>        server_name  xxxx.cn;<br>        # 访问80端口的根目录配置<br>        location / &#123;<br>            # 首页文件名<br>            index index.html;<br>            # 项目根目录<br>            root /xxx/xxx;<br>            try_files $uri $uri/ /index.html;<br>        &#125;<br>        error_page   500 502 503 504  /50x.html;<br>        location = /50x.html &#123;<br>            root   html;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="七、操作-Nginx"><a href="#七、操作-Nginx" class="headerlink" title="七、操作 Nginx"></a>七、操作 Nginx</h2><ul>
+<li><p>启动Nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>停止Nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl stop nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>重启Nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>查看Nginx状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl status nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Nginx开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl enable nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>禁用Nginx开机自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl disable nginx<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>Nginx配置文件自检</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">nginx -t<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="八、uWSGI是什么"><a href="#八、uWSGI是什么" class="headerlink" title="八、uWSGI是什么"></a>八、uWSGI是什么</h2><p>uWSGI是一个Web服务器，它实现了WSGI协议、uwsgi、http等协议。</p>
+<h2 id="九、配置uWSGI"><a href="#九、配置uWSGI" class="headerlink" title="九、配置uWSGI"></a>九、配置uWSGI</h2><ul>
+<li><p>在项目根目录下创建 <code>uwsgi.ini</code> 配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">touch uwsgi.ini<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>uWSGI配置文件例子如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">[uwsgi]<br># 同时打开http和socket协议<br>http-socket = 0.0.0.0:8001<br>chdir = 项目根目录<br># 使进程在后台运行，并将日志打到指定的日志文件<br>daemonize = 日志路径<br># 启动主进程，来管理其他进程<br>master = true<br># 启动8个工作进程<br>processes = 8<br># 启动4个工作线程<br>threads = 4<br># 当服务器退出的时候自动删除unix socket文件和pid文件<br>vacuum = true<br>py-autoreload = 1<br>static-map = /static=/xx/xxxx/static<br># 设置socket的监听队列大小（默认：100）<br>listen = 1000<br># 一个请求花费的时间超过了该时间，当前工作进程自动重启<br>harakiri = 30<br># 为每个工作进程设置请求数的上限<br>max-requests = 5000<br># 设置在平滑重启（直到接收到的请求处理完才重启）<br>reload-mercy = 8<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="十、操作uWSGI"><a href="#十、操作uWSGI" class="headerlink" title="十、操作uWSGI"></a>十、操作uWSGI</h2><ul>
+<li>运行uWSGI服务<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">uwsgi --ini uwsgi.ini<br></code></pre></td></tr></table></figure></li>
+</ul>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="salty.github.io/2022/09/05/MD5js%E6%96%87%E4%BB%B6/">← Next MD5js文件</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="salty.github.io/2022/09/05/uni-app%20requset%E8%AF%B7%E6%B1%82%E5%B0%81%E8%A3%85_api%E5%B0%81%E8%A3%85/">uni-app requset请求封装_api封装 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="salty.github.io/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Salty Sun</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Nginx%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">一、Nginx是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Nginx%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">二、Nginx的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%85%B3%E4%BA%8E%E4%BB%A3%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、关于代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AE%89%E8%A3%85-Nginx"><span class="toc-number">4.</span> <span class="toc-text">四、安装 Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">五、防火墙配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%85%8D%E7%BD%AENginx"><span class="toc-number">6.</span> <span class="toc-text">六、配置Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%93%8D%E4%BD%9C-Nginx"><span class="toc-number">7.</span> <span class="toc-text">七、操作 Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81uWSGI%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">8.</span> <span class="toc-text">八、uWSGI是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E9%85%8D%E7%BD%AEuWSGI"><span class="toc-number">9.</span> <span class="toc-text">九、配置uWSGI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%93%8D%E4%BD%9CuWSGI"><span class="toc-number">10.</span> <span class="toc-text">十、操作uWSGI</span></a></li></ol></div></div><footer><nobr>使用 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>博士 <a target="_blank" rel="noopener" href="https://github.com/SaltySun">SaltySun</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();}</script><script src="salty.github.io/js/arknights.js"></script><script src="salty.github.io/js/pjax.js"></script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>

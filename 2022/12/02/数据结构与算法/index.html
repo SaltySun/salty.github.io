@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="zh-cn" theme-mode="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>数据结构与算法 | Dr.SlatySun</title><script>var config = {"root":"salty.github.io/","search":{"preload":false,"activeHolder":"键入以继续","blurHolder":"数据检索","noResult":"无 $0 相关数据"},"code":{"codeInfo":"$0 - 共 $1 行","copy":"复制","copyFinish":"复制成功","expand":"展开"}}</script><script src="//unpkg.com/mermaid@9.2.2/dist/mermaid.min.js"></script><link rel="stylesheet" href="salty.github.io/css/arknights.css"><script>if (window.localStorage.getItem('theme-mode') === 'light') document.documentElement.setAttribute('theme-mode', 'light')
+if (window.localStorage.getItem('theme-mode') === 'dark') document.documentElement.setAttribute('theme-mode', 'dark')</script><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("salty.github.io/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('salty.github.io/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="salty.github.io/atom.xml" title="Dr.SlatySun" type="application/atom+xml">
+</head><body><div class="loading" style="opacity: 0"><div class="loadingBar left"></div><div class="loadingBar right"></div></div><main><header class="closed"><nav><div class="navBtn hide"><i class="navBtnIcon"><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span><span class="navBtnIconBar"></span></i></div><div class="navItem" id="search-header"><span class="navItemTitle"><input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="数据检索" spellcheck="false" maxlength="50" type="text" id="search-input"></span></div><div class="navItem" id="search-holder"></div><div class="search-popup"><div id="search-result"></div></div><ol class="navContent"><li class="navItem"><a class="navBlock" href="salty.github.io/"><span class="navItemTitle">Home</span></a></li><li class="navItem" matchdata="categories,tags"><a class="navBlock" href="salty.github.io/archives/"><span class="navItemTitle">Archives</span></a></li></ol></nav></header><article><div id="post-bg"><div id="post-title"><h1>数据结构与算法</h1><div id="post-info"><span>文章发布时间: <div class="control"><time datetime="2022-12-01T16:00:00.000Z" id="date"> 2022-12-02</time></div></span><br><span>最后更新时间: <div class="control"><time datetime="2023-03-24T06:53:13.275Z" id="updated"> 2023-03-24</time></div></span></div></div><hr><div id="post-content"><h1 id="数据结构概述"><a href="#数据结构概述" class="headerlink" title="数据结构概述"></a>数据结构概述</h1><p><strong>数据结构是指相互之间存在一种或多种特定关系数据元素的集合</strong></p>
+<h2 id="逻辑结构"><a href="#逻辑结构" class="headerlink" title="逻辑结构"></a>逻辑结构</h2><p><strong>数据对象中数据元素之间的相互关系</strong><br>① <strong>集合结构</strong>：数据元素之间的<strong>唯一关系</strong>就是<strong>属于同一个集合</strong><br>② <strong>线性结构</strong>：数据元素之间存在<strong>一对一</strong>的关系（除首尾元素均存在前驱和后继）<br>③ <strong>树形结构</strong>：数据元素之间存在<strong>一对多</strong>的关系<br>④ <strong>图形结构</strong>：数据元素之间存在<strong>多对多</strong>的关系</p>
+<ul>
+<li>（每一个数据元素看做一个节点，元素之间的逻辑关系用连线表示，如果关系有方向则连线带箭头）</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673502677853-b63ba664-53c2-421e-8c4a-26a8392a4e9f.png#averageHue=%231a1616&clientId=uaa0f43b3-71fa-4&from=paste&id=u69ea4797&originHeight=191&originWidth=934&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u51ec3a85-cd18-486d-aac6-f2467f10c5e&title="></p>
+<h2 id="物理结构-存储结构"><a href="#物理结构-存储结构" class="headerlink" title="物理结构(存储结构)"></a>物理结构(存储结构)</h2><p><strong>数据的逻辑结构关系在计算机中的存储形式</strong><br>① <strong>顺序存储结构</strong>：把元素分别放在地址连续的存储单元中的存储方式</p>
+<ul>
+<li>也就是说：元素一个一个有序的排好队，各自占据一定的空间，例如定义一个含有6个浮点型数据的数组：然后内存中的一块大小为6个浮点型数据大小空间就会被计算机所开辟，然后数据存入时，依次顺序摆入</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673502739913-0e2e62ae-0835-490e-b087-bcae17d7c7d3.png#averageHue=%234a4a54&clientId=uaa0f43b3-71fa-4&from=paste&id=u7e741ad3&originHeight=105&originWidth=394&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u59f2c291-0fa5-44f3-a1f2-daf9cb27a9c&title="><br>② <strong>链式存储结构</strong>：把元素存储在任意的存储单元中的存储方式</p>
+<ul>
+<li>因为数据元素位置不确定，所以需要通过指针指向到元素的存储地址，从而确定不同数据元素之间的位置</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673502784225-5bd0fcdb-4699-4675-8e4e-7eaae7ad4160.png#averageHue=%23141111&clientId=uaa0f43b3-71fa-4&from=paste&id=u8f09a084&originHeight=158&originWidth=397&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uddbea527-d968-4038-b6b6-2180f36007d&title="><br>③ <strong>散列 (哈希) 存储方式</strong>：是一种力图将数据元素的存储位置与关键码之间建立确定对应关系的查找技术</p>
+<ul>
+<li>它的原理就是，将一个节点的关键字key作为自变量，通过一个确定的函数运算f(key)，其函数值作为节点的存储地址，将节点存入到指定的位置上，查找的时候，被搜索的关键字会再次通过f(key)函数计算地址，然后读取对应数据</li>
+</ul>
+<p>④ <strong>索引存储方式</strong>：存储时，除了存储节点，还附加建立了索引表来表示节点的地址</p>
+<h1 id="算法概述"><a href="#算法概述" class="headerlink" title="算法概述"></a>算法概述</h1><h2 id="算法的特征"><a href="#算法的特征" class="headerlink" title="算法的特征"></a>算法的特征</h2><ul>
+<li><strong>输入</strong>：算法具有<strong>零个</strong>或者多个输入（零个的情况例如打印输出字符串，或者算法自身已经给定了初始条件）</li>
+<li><strong>输出</strong>：算法具有<strong>一个</strong>或者多个输出，用来反映算法对输入数据加工后的结果</li>
+<li><strong>有穷性</strong>：算法必须在执行有限个步骤后终止，“有限” 的定义不是绝对的，而是实际应用中合理的可接受的</li>
+<li><strong>确定性</strong>： 算法的每一步骤都具有确定的含义，不会出现二义性<ul>
+<li>也就是说，唯一的输入只有唯一的输出</li>
+</ul>
+</li>
+<li><strong>可行性</strong>：算法的每一步都是可行的，通过有限步骤可以实现</li>
+</ul>
+<h2 id="算法的设计要求"><a href="#算法的设计要求" class="headerlink" title="算法的设计要求"></a>算法的设计要求</h2><ul>
+<li><strong>正确性</strong>：合理的数据输入下，最终可以输出能解决问题需求的正确答案<ul>
+<li>对正确的理解：<ul>
+<li>无语法错误</li>
+<li>输入合法和非法的数据均可以得到正确答案</li>
+<li>输入刁难的数据依旧可以输出满足需要的答案</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>可读性</strong>：算法便于阅读和理解<ul>
+<li>算法应该层次分明，易读易懂，方便二次调试和修改</li>
+<li>复杂一些的算法，变量的命名尽量恰当一些，用阿里的开发手册中的一句话就是说：<strong>“正确的英文拼写和语法可以让阅读者易与理解避免歧义”</strong>，<strong>“为了达到代码自解释的目标，任何自定义编程元素在命名时，使用尽量完整的单词组合来表达其意”</strong></li>
+</ul>
+</li>
+<li><strong>健壮性</strong>：当数据不合理的时候，算法也能对各种情况作出处理，而不是报出异常，或者输出错误的答案</li>
+<li><strong>高效性</strong>：尽量满足时间效率高，存储率低的需求</li>
+</ul>
+<h2 id="算法的时间复杂度"><a href="#算法的时间复杂度" class="headerlink" title="算法的时间复杂度"></a>算法的时间复杂度</h2><p><strong>时间复杂度通常用来衡量算法的运行时间</strong><br>算法的时间复杂度是一个函数 T(n)，它定性描述该算法的运行时间，通常用大O表示法。<br>记作：T(n) &#x3D; O(f(n)) 例如3n² + 2n + 1 的时间复杂度为 O(n²)<br>常见的时间复杂度量级有：</p>
+<ul>
+<li>常数阶O(1)</li>
+<li>对数阶O(logN)</li>
+<li>线性阶O(n)</li>
+<li>线性对数阶O(nlogN)</li>
+<li>平方阶O(n²)</li>
+<li>立方阶O(n³)</li>
+<li>K次方阶O(n^k)</li>
+<li>指数阶(2^n)</li>
+</ul>
+<p>上面从上至下依次的时间复杂度越来越大，执行的效率越来越低。</p>
+<h3 id="常数阶O-1"><a href="#常数阶O-1" class="headerlink" title="常数阶O(1)"></a><strong>常数阶O(1)</strong></h3><p>无论代码执行了多少行，只要是没有循环等复杂结构，那这个代码的时间复杂度就都是O(1)，如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> j = <span class="hljs-number">2</span>;<br>++i;<br>j++;<br><span class="hljs-type">int</span> m = i + j;<br></code></pre></td></tr></table></figure>
+<h3 id="线性阶O-n"><a href="#线性阶O-n" class="headerlink" title="线性阶O(n)"></a><strong>线性阶O(n)</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>; i&lt;=n; ++i)<br>&#123;<br>   j = i;<br>   j++;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这段代码，for循环里面的代码会执行n遍，因此它消耗的时间是随着n的变化而变化的，因此这类代码都可以用O(n)来表示它的时间复杂度。</p>
+<h3 id="对数阶O-logN"><a href="#对数阶O-logN" class="headerlink" title="对数阶O(logN)"></a><strong>对数阶O(logN)</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">while</span>(i&lt;n)<br>&#123;<br>    i = i * <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在while循环里面，每次都将 i 乘以 2，乘完之后，i 距离 n 就越来越近了。那么假设循环x次之后，i 就大于 2 了，此时这个循环就退出了。也就是说有 x 个 2 相乘后大于 n，则会退出循环。表示出来就是 2^x&#x3D;n，得到 x &#x3D; log2^n。因此这个代码的时间复杂度为：<strong>O(logn)</strong></p>
+<h3 id="线性对数阶O-nlogN"><a href="#线性对数阶O-nlogN" class="headerlink" title="线性对数阶O(nlogN)"></a><strong>线性对数阶O(nlogN)</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(m=<span class="hljs-number">1</span>; m&lt;n; m++)<br>&#123;<br>    i = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span>(i&lt;n)<br>    &#123;<br>        i = i * <span class="hljs-number">2</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>将时间复杂度为O(logn)的代码循环N遍的话，那么它的时间复杂度就是 n * O(logN)，也就是了O(nlogN)。</p>
+<h3 id="平方阶O-n²"><a href="#平方阶O-n²" class="headerlink" title="平方阶O(n²)"></a><strong>平方阶O(n²)</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(x=<span class="hljs-number">1</span>; i&lt;=n; x++)<br>&#123;<br>   <span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>; i&lt;=n; i++)<br>    &#123;<br>       j = i;<br>       j++;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这段代码其实就是嵌套了2层n循环，它的时间复杂度就是 O(n*n)，即 O(n²)<br>如果将其中一层循环的n改成m，即：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">for</span>(x=<span class="hljs-number">1</span>; i&lt;=m; x++)<br>&#123;<br>   <span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>; i&lt;=n; i++)<br>    &#123;<br>       j = i;<br>       j++;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>那它的时间复杂度就变成了 O(m*n)</p>
+<h3 id="立方阶O-n³-和K次方阶O-n-k"><a href="#立方阶O-n³-和K次方阶O-n-k" class="headerlink" title="立方阶O(n³)和K次方阶O(n^k)"></a><strong>立方阶O(n³)<strong>和</strong>K次方阶O(n^k)</strong></h3><p>参考上面的O(n²) 去理解就好了，O(n³)相当于三层n循环，其它的类似。</p>
+<h2 id="算法的空间复杂度"><a href="#算法的空间复杂度" class="headerlink" title="算法的空间复杂度"></a>算法的空间复杂度</h2><p>空间复杂度是对一个算法在运行过程中临时占用存储空间大小的一个量度，同样反映的是一个趋势，我们用 S(n) 来定义。<br>空间复杂度比较常用的有：O(1)、O(n)、O(n²)</p>
+<h3 id="时间复杂度大小排序"><a href="#时间复杂度大小排序" class="headerlink" title="时间复杂度大小排序"></a>时间复杂度大小排序</h3><p>O(1) &lt; O(logn) &lt; O(n) &lt; O(nlogn) &lt; O(n²) &lt; O(n³) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
+<h3 id="空间复杂度-O-1"><a href="#空间复杂度-O-1" class="headerlink" title="空间复杂度 O(1)"></a><strong>空间复杂度 O(1)</strong></h3><p>如果算法执行所需要的临时空间不随着某个变量n的大小而变化，即此算法空间复杂度为一个常量，可表示为 O(1)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> i = <span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> j = <span class="hljs-number">2</span>;<br>++i;<br>j++;<br><span class="hljs-type">int</span> m = i + j;<br></code></pre></td></tr></table></figure>
+<p>代码中的 i、j、m 所分配的空间都不随着处理数据量变化，因此它的空间复杂度 S(n) &#x3D; O(1)</p>
+<h3 id="空间复杂度-O-n"><a href="#空间复杂度-O-n" class="headerlink" title="空间复杂度 O(n)"></a><strong>空间复杂度 O(n)</strong></h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span>[] m = new <span class="hljs-type">int</span>[n]<br><span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>; i&lt;=n; ++i)<br>&#123;<br>   j = i;<br>   j++;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这段代码中，第一行new了一个数组出来，这个数据占用的大小为n，这段代码的2-6行，虽然有循环，但没有再分配新的空间，因此，这段代码的空间复杂度主要看第一行即可，即 S(n) &#x3D; O(n)</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673507914378-83aa4280-2e01-4293-beae-2df5c3ba41b8.png#averageHue=%23fafafa&clientId=uaa0f43b3-71fa-4&from=paste&id=u9b27f1ca&originHeight=375&originWidth=420&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u8c81493c-bf14-40ca-a391-cbbba846881&title="></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673509016167-e5114432-09a3-4200-9254-c52da1f7aa3c.png#averageHue=%23dfdfb0&clientId=u62307dcf-0cfd-4&from=paste&height=54&id=ud00b05c2&name=image.png&originHeight=54&originWidth=691&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28342&status=done&style=none&taskId=u82d2cb6a-1b40-4455-867d-d6870f101c8&title=&width=691" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/29365957/1673509027719-e98dd16c-da84-4252-9ad4-4d42da74bb74.png#averageHue=%23f6f5f6&clientId=u62307dcf-0cfd-4&from=paste&height=377&id=u0be9a6d2&name=image.png&originHeight=377&originWidth=630&originalType=binary&ratio=1&rotation=0&showTitle=false&size=108557&status=done&style=none&taskId=ufffca4b6-47fb-4ecd-aeb8-937e3228e37&title=&width=630" alt="image.png"></p>
+<div id="paginator"></div></div><div id="post-footer"><div id="pages"><div class="footer-link" style="width: 50%;text-align:right;border-right:1px #fe2 solid"><a href="salty.github.io/2022/12/02/%E6%8B%96%E6%8B%89%E6%8B%BD/">← Next 拖拉拽</a></div><div class="footer-link" style="width: 50%;right:1px;border-left:1px #fe2 solid"><a href="salty.github.io/2022/11/25/%E5%85%BC%E8%81%8C%E4%BF%A1%E6%81%AFaes%20rsa%E5%8A%A0%E5%AF%86%E5%8F%8Awebsocket%E7%AE%80%E6%98%93%E8%81%8A%E5%A4%A9%E5%AE%9E%E7%8E%B0/">兼职信息aes rsa加密及websocket简易聊天实现 Prev →</a></div></div></div></div><div class="bottom-btn"><div><a id="to-top" onClick="scrolls.scrolltop();" title="回到顶部" style="opacity: 0; display: none;">∧</a><a id="to-index" href="#toc-div" title="文章目录">≡</a><a id="color-mode" onClick="colorMode.change()" title="切换主题"></a></div></div></article><aside><div id="about"><a href="salty.github.io/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/">Salty Sun</a></h1><div id="description"><p></p></div></div><div id="aside-block"><div id="toc-div"><h1>目录</h1><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">数据结构概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">逻辑结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84-%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">物理结构(存储结构)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">算法概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E7%89%B9%E5%BE%81"><span class="toc-number">2.1.</span> <span class="toc-text">算法的特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A6%81%E6%B1%82"><span class="toc-number">2.2.</span> <span class="toc-text">算法的设计要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">2.3.</span> <span class="toc-text">算法的时间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E6%95%B0%E9%98%B6O-1"><span class="toc-number">2.3.1.</span> <span class="toc-text">常数阶O(1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E9%98%B6O-n"><span class="toc-number">2.3.2.</span> <span class="toc-text">线性阶O(n)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E9%98%B6O-logN"><span class="toc-number">2.3.3.</span> <span class="toc-text">对数阶O(logN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%AF%B9%E6%95%B0%E9%98%B6O-nlogN"><span class="toc-number">2.3.4.</span> <span class="toc-text">线性对数阶O(nlogN)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E6%96%B9%E9%98%B6O-n%C2%B2"><span class="toc-number">2.3.5.</span> <span class="toc-text">平方阶O(n²)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%8B%E6%96%B9%E9%98%B6O-n%C2%B3-%E5%92%8CK%E6%AC%A1%E6%96%B9%E9%98%B6O-n-k"><span class="toc-number">2.3.6.</span> <span class="toc-text">立方阶O(n³)和K次方阶O(n^k)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%9A%84%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">2.4.</span> <span class="toc-text">算法的空间复杂度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%A4%A7%E5%B0%8F%E6%8E%92%E5%BA%8F"><span class="toc-number">2.4.1.</span> <span class="toc-text">时间复杂度大小排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-1"><span class="toc-number">2.4.2.</span> <span class="toc-text">空间复杂度 O(1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6-O-n"><span class="toc-number">2.4.3.</span> <span class="toc-text">空间复杂度 O(n)</span></a></li></ol></li></ol></li></ol></div></div><footer><nobr>使用 <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a></nobr><wbr><nobr> 主题 <a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknights</a></nobr><wbr><nobr>博士 <a target="_blank" rel="noopener" href="https://github.com/SaltySun">SaltySun</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/search.js"></script><script class="pjax-js">reset=_=>{code.findCode();}</script><script src="salty.github.io/js/arknights.js"></script><script src="salty.github.io/js/pjax.js"></script><script>window.addEventListener("load",() => {pjax = new Pjax({
+ cacheBust: false,
+ selectors: ['title','article','#aside-block','.pjax-js'],
+ switches: {'article': Pjax.switches.sideBySide},
+ switchesOptions: {
+   'article': {
+     classNames: {
+       remove: "pjax-out",
+       add: "pjax-in"
+     }
+   }
+ }
+});
+document.addEventListener("pjax:complete", reset);reset()})</script></body></html>
